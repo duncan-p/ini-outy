@@ -10,30 +10,39 @@
  *
  * The first argument of this function MUST 
  * contain the CloudStoreAction.
- * 
- * global.asyncId  is used to track the 
- * active async_load id. 
  */
-var /*string*/ action = argument[0];
+enum CloudStoreAction {
+  login,
+  logout,
+  save,
+  sync,
+  event
+};
 
-//Handle the specified action.
+/*
+ * Note: `global.asyncId`  is used to 
+ * track the active `async_load` id
+ */
+var /*CloudStoreAction*/ action = argument[0];
+
+/* Handle the specified action */
 switch (action)
 {
-  case "login":
+  case CloudStoreAction.login:
     if !achievement_login_status() {
         achievement_login();
         show_debug_message("Cloud login requested");
     }
   break;
   
-  case "logout":
+  case CloudStoreAction.logout:
     if achievement_login_status() {
         achievement_logout();
         show_debug_message("Cloud logout requested");
     }
   break;
   
-  case "save":
+  case CloudStoreAction.save:
     var /*string*/ fileName = string(argument[1]),
         /*string*/ description = string(argument[2]),
         /*string*/ data = string(argument[3]),
@@ -45,12 +54,12 @@ switch (action)
     show_debug_message("Data saved to cloud: " + data);
   break;
   
-  case "sync":
+  case CloudStoreAction.sync:
     global.asyncId = cloud_synchronise();
     show_debug_message("Cloud data sync requested");
   break;
   
-  case "onEvent":
+  case CloudStoreAction.event:
     if global.asyncId == ds_map_find_value(async_load, "id")
     {
       var status = ds_map_find_value(async_load, "status");
