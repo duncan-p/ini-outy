@@ -1,5 +1,5 @@
 # ini-outy
-Cloud save an in-game ini file with Gamemaker Studio.
+Cloud save an in-game .ini file with Gamemaker Studio.
 
 ## Usage
 
