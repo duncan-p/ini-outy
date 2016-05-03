@@ -3,6 +3,10 @@ Cloud save an in-game ini file with Gamemaker Studio.
 
 ## Usage
 
+Include the [cloudStore script](https://github.com/duncan-p/ini-outy/cloudStore.gml) in your GamemakerStudio project's `Scripts` directory.
+
+The following game objects are an example of how this script may be used.
+
 ### oCloudEventHandler (object)
 ```
   Event: Cloud
