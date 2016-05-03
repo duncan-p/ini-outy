@@ -41,4 +41,3 @@ The following game objects are an example of how this script may be used.
 ## Google Play Store
 
 You will need to set up your app to allow Google Play Game Services by [following this guide](https://developers.google.com/games/services/android/quickstart#step_2_set_up_the_game_in_the_dev_console)
-
