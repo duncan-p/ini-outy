@@ -6,7 +6,7 @@
  * logout
  * save(fileName, description, data)
  * sync
- * onEvent
+ * event
  *
  * The first argument of this function MUST 
  * contain the CloudStoreAction.
@@ -45,8 +45,8 @@ switch (action)
   case CloudStoreAction.save:
     var /*string*/ fileName = string(argument[1]),
         /*string*/ description = string(argument[2]),
-        /*string*/ data = string(argument[3]),
-        /*real*/ file = file_text_open_write(fileName);
+        /*real*/ file = file_text_open_write(fileName),
+        /*string*/ data = "Score="+string(global.Score);
 
     file_text_write_string(file, data);
     file_text_close(file);
@@ -66,14 +66,18 @@ switch (action)
       show_debug_message("CloudStore event received: Status " + string(status));
       switch (status) {
         case 0:
-          show_debug_message("New game data downloaded from the cloud: " +
-            ds_map_find_value(async_load, "description") +
-            " = " +
-             ds_map_find_value(async_load, "resultString")
-          );
-          var file = file_text_open_write("sync_received.txt");
-          file_text_write_string(file, ds_map_find_value(async_load, "resultString"));
-          file_text_close(file);
+          var data = ds_map_find_value(async_load, "resultString");
+          if is_undefined(data) || data == ""
+          {
+            /* Gamemaker (or Google) seem to have a bug where they 
+              mix up resultString and description - d'oh! */
+              data = ds_map_find_value(async_load, "description");
+          }
+          show_debug_message("New game data downloaded from the cloud: " + data);
+          global.Score = int64(string_replace(data, "Score=", ""));
+          //var file = file_text_open_write("sync_received.txt");
+          //file_text_write_string(file, ds_map_find_value(async_load, "resultString"));
+          //file_text_close(file);
         break;
           
         case 1:
